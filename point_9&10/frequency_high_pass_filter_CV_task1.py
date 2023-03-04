@@ -1,21 +1,15 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[117]:
-
-
 import matplotlib.pyplot as plt
 import numpy as np
+
+
 img = plt.imread("carton.jpg")/float(2**8)
 plt.imshow(img)
 plt.show()
 
 
-# In[118]:
-
-
 shape = img.shape[:2]
 
+#function that allows you to choose the length of diamiter of the chosen circle of the freq domain
 def draw_cicle(shape,diamiter):
 
     assert len(shape) == 2
@@ -28,31 +22,33 @@ def draw_cicle(shape,diamiter):
     return(TF)
 
 
+#for low pass filter
 TFcircleIN   = draw_cicle(shape=img.shape[:2],diamiter=50)
+#for high pass filter
 TFcircleOUT  = ~TFcircleIN
 
 
-# In[119]:
 
-
+#perform FFT on every channel of the original image.
 fft_img = np.zeros_like(img,dtype=complex)
 for ichannel in range(fft_img.shape[2]):
     fft_img[:,:,ichannel] = np.fft.fftshift(np.fft.fft2(img[:,:,ichannel]))
 
 
-# In[120]:
 
-
+#function that apply the filter on the freq domain
 def filter_circle(TFcircleIN,fft_img_channel):
     temp = np.zeros(fft_img_channel.shape[:2],dtype=complex)
     temp[TFcircleIN] = fft_img_channel[TFcircleIN]
     return(temp)
 
+#list of arrays will carry the freq domain of the image after performing the high pass filter
 fft_img_filtered_OUT = []
+
 ## for each channel, pass filter
 for ichannel in range(fft_img.shape[2]):
     fft_img_channel  = fft_img[:,:,ichannel]
-    ## circle OUT
+    ## circle OUT, high pass filter
     temp = filter_circle(TFcircleOUT,fft_img_channel)
     fft_img_filtered_OUT.append(temp) 
     
@@ -60,16 +56,7 @@ fft_img_filtered_OUT = np.array(fft_img_filtered_OUT)
 fft_img_filtered_OUT = np.transpose(fft_img_filtered_OUT,(1,2,0))
 
 
-# In[121]:
-
-
-abs_fft_img              = np.abs(fft_img)
-abs_fft_img_filtered_OUT = np.abs(fft_img_filtered_OUT)
-
-
-# In[122]:
-
-
+#function that allows you to reverse the image to time domain again
 def inv_FFT_all_channel(fft_img):
     img_reco = []
     for ichannel in range(fft_img.shape[2]):
@@ -82,10 +69,3 @@ img_reco_filtered_OUT = inv_FFT_all_channel(fft_img_filtered_OUT)
 
 plt.imshow(np.abs(img_reco_filtered_OUT))
 plt.show()
-
-
-# In[ ]:
-
-
-
-
