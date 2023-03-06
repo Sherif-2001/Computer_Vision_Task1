@@ -1,7 +1,45 @@
+import random
 import statistics as stat
 import cv2
 import numpy as np
 import scipy.signal as sig
+
+
+# --------------------------------- ADD Noise -------------------------------------
+
+def sp_noise(image,prob):
+    '''
+    Add salt and pepper noise to image
+    prob: Probability of the noise
+    '''
+    output = np.zeros(image.shape,np.uint8)
+    thres = 1 - prob 
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            rdn = random.random()
+            if rdn < prob:
+                output[i][j] = 0
+            elif rdn > thres:
+                output[i][j] = 255
+            else:
+                output[i][j] = image[i][j]
+    return output
+
+def unifrom_noise(image):
+    x, y = image.shape
+    mean = 0
+    max = 0.1
+    noise = np.zeros((x,y), dtype=np.float64)
+    for i in range(x):
+        for j in range(y):
+            noise[i][j] = np.random.uniform(mean,max)
+    noise_img = image + noise
+    # noise_img +=255
+    noise_img = noise_img*255
+    noise_img = np.clip(noise,0,1)
+    return noise_img
+
+# --------------------------------- Noise Filters -------------------------------------
 
 def average_filter(image, maskSize = [3,3]):
     # Make average filter mask
@@ -38,6 +76,8 @@ def median_filter(image,filter_size = 3):
             filteredImage[i, j]= stat.median_low(sorted(temp))
     
     filteredImage = filteredImage.astype(np.uint8)
+
+# --------------------------------- Edge Detection Filters -------------------------------------
 
 def canny_edge_detection(img, weak_th = None, strong_th = None):
 # defining the canny detector function 
