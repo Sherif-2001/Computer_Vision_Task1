@@ -56,10 +56,34 @@
     <div id="histogram" class="tabcontent">
         <!-- Tab for frequency filters -->
         <h1>Histogram Operations</h1>
+        <button>upload image</button>
+
+        <div class="input-output">
+            <!-- input image -->
+                <div id="input_img" class="img"></div>
+            <!-- output image  -->
+                <div id="output_img" class="img"></div>
+        </div>
+        <div class="options">
+            <button>equalize image</button>
+            <button>normalize image</button>
+            <button>Global thresholding</button>
+            <br>
+            <button>local thresholding</button>
+            <input type="range" min="2" max="20" step="1">
+        </div>
     </div>
     
     <div id="hybrid" class="tabcontent">
         <h1>Hybrid images</h1>
+        <button>upload image</button>
+        <div class="input-output">
+            <!-- input image -->
+                <div id="input_img1" class="img"></div>
+            <!-- output image  -->
+                <div id="input_img2" class="img"></div>
+        </div>
+
     </div> 
 </body>
 

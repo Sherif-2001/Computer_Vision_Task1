@@ -21,11 +21,15 @@ select {
     font-weight: bold;
     width: 12vw;
 }
+input[type="range"]{
+    background-color: #235a33;
+}
 button {
     padding: 0.5rem 1rem;
     border-radius: 0.8rem;
     transition: 0.3s;
     margin: 0.2rem 0.2rem;
+    font-size: 1.1rem;
 }
 button:hover{
     background-color: #235a33;
@@ -88,7 +92,7 @@ color: #d3d3d3;
 .tabcontent {
     display: none;
     height:80vh;
-    width: 80vw;
+    width: 60vw;
     margin: auto;
     padding: 6px 12px;
     border: 1px solid #ccc;
