@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+    <title>CV task 1</title>
+</head>
+
+<body>
+
+     <!-- Tab links -->
+    <div class="tab">
+        <button class="tablinks" onclick="openMode(event, 'filter')" id="filter-btn">Apply image filters</button>
+        <button class="tablinks" onclick="openMode(event, 'histogram')">Histogram Operations</button>
+        <button class="tablinks" onclick="openMode(event, 'hybrid')">Hybrid images</button>
+    </div>
+  
+    <!-- Tab content for frequency filters-->
+    <div id="filter" class="tabcontent">
+        <h1>Frequency Filters</h1>
+        <button>upload image</button>
+
+        <div class="input-output">
+            <!-- input image -->
+                <div id="input_img" class="img"></div>
+            <!-- output image  -->
+                <div id="output_img" class="img"></div>
+        </div>
+
+        <div class="options">
+            <!-- noise select -->
+            <label for="noise-select">Add noise:</label>
+            <select name="noise-select" id="noise-select">
+                <option value="gaussian">gaussian</option>
+                <option value="uniform">unifrom</option>        
+                <option value="salt-and-pepper">salt and pepper</option>
+            </select>
+
+            <!-- filter select -->
+            <label for="filter-select">                   Choose the type of filter you want</label>
+            <select name="filter-select" id="filter-select">
+                <option value="median">median</option>
+                <option value="average">average</option>
+                <option value="gaussian">gaussian</option>
+                <option value="low-pass">low pass</option>
+                <option value="high-pass">high pass</option>
+            </select>
+        </div>
+    </div>
+    
+    <div id="histogram" class="tabcontent">
+        <!-- Tab for frequency filters -->
+        <h1>Histogram Operations</h1>
+    </div>
+    
+    <div id="hybrid" class="tabcontent">
+        <h1>Hybrid images</h1>
+    </div> 
+</body>
+
+    <script src="../static/js/main.js"></script>
+    <script>
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("filter-btn").click();
+    </script>
+</html>
