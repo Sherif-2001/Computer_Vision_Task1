@@ -7,10 +7,9 @@ def home():
     return render_template("index.html")
 
 @skills_app.route("/test",methods=['POST'])
-def po():
-    print('diaa')
-    print(request.files['image1'])
-    print(request.files['image2'])
-    print(request.form['operation'])
+def test():
+    image1=request.files['image1']
+    image2=request.files['image2']
+    operation= request.form['operation']
     return "diaa"
 
