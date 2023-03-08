@@ -54,7 +54,6 @@ if __name__ == "__main__":
     app.run(debug = True)
 
 
-
 # @app.route("/image/<id>", methods = ["GET", "POST"])
 # def uploadImage(id):
 #     if(request.method == "POST"):

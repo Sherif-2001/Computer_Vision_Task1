@@ -15,8 +15,8 @@ Wednesday 8 Mar 2023 at 11:59 PM
 Deliverables
 
     Filters.py : this will include you implementation for filtration functions (requirements 1-3)
-    Frequency.py : this will include your implementation for histogram related tasks (requirements 4-8).
-    Histograms.py : this will include your implementation for frequency domain related tasks (requirements 9-10).
+    Histograms.py : this will include your implementation for histogram related tasks (requirements 4-8).
+    Frequency.py : this will include your implementation for frequency domain related tasks (requirements 9-10).
     Images : folder contains images to test your implementation.
     UI necessary files
 
