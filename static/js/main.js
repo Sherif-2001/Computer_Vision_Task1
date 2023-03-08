@@ -14,6 +14,9 @@ const outputImage = document.getElementById("output_img");
 const submit_btn = document.getElementById("submit-btn");
 const files = [2];
 
+const filter_select = document.getElementById("filter-select");
+const noise_select = document.getElementById("noise-select");
+
 input_btns[0].addEventListener("change", function (e) {
   const file = input_btns[0].files[0];
   files[0] = file;
@@ -32,73 +35,39 @@ input_btns[1].addEventListener("change", function (e) {
 });
 
 tab1_btn.addEventListener("click", function (e) {
-  tab1_btn.classList.contains("active")
-    ? null
-    : tab1_btn.classList.add("active");
-  tab2_btn.classList.contains("active")
-    ? tab2_btn.classList.remove("active")
-    : null;
-  tab3_btn.classList.contains("active")
-    ? tab3_btn.classList.remove("active")
-    : null;
+  tab1_btn.classList.add("active");
+  tab2_btn.classList.remove("active");
+  tab3_btn.classList.remove("active");
   tab1Content.classList.remove("hide");
-  tab2Content.classList.contains("hide")
-    ? null
-    : tab2Content.classList.add("hide");
-  tab3Content.classList.contains("hide")
-    ? null
-    : tab3Content.classList.add("hide");
+  tab2Content.classList.add("hide");
+  tab3Content.classList.add("hide");
+
   header.textContent = "Frequency Filters";
-  document.getElementById("input_img-2").classList.contains("hide")
-    ? null
-    : document.getElementById("input_img-2").classList.add("hide");
+  document.getElementById("input_img-2").classList.add("hide");
 });
 
 tab2_btn.addEventListener("click", function (e) {
-  tab1_btn.classList.contains("active")
-    ? tab1_btn.classList.remove("active")
-    : null;
-  tab2_btn.classList.contains("active")
-    ? null
-    : tab2_btn.classList.add("active");
-  tab3_btn.classList.contains("active")
-    ? tab3_btn.classList.remove("active")
-    : null;
+  tab1_btn.classList.remove("active");
+  tab2_btn.classList.add("active");
+  tab3_btn.classList.remove("active");
+  tab1Content.classList.add("hide");
   tab2Content.classList.remove("hide");
-  tab1Content.classList.contains("hide")
-    ? null
-    : tab1Content.classList.add("hide");
-  tab3Content.classList.contains("hide")
-    ? null
-    : tab3Content.classList.add("hide");
+  tab3Content.classList.add("hide");
+
   header.textContent = "Histogram Operations";
-  document.getElementById("input_img-2").classList.contains("hide")
-    ? null
-    : document.getElementById("input_img-2").classList.add("hide");
+  document.getElementById("input_img-2").classList.add("hide");
 });
 
 tab3_btn.addEventListener("click", function (e) {
-  tab1_btn.classList.contains("active")
-    ? tab1_btn.classList.remove("active")
-    : null;
-  tab2_btn.classList.contains("active")
-    ? tab2_btn.classList.remove("active")
-    : null;
-  tab3_btn.classList.contains("active")
-    ? null
-    : tab3_btn.classList.add("active");
+  tab1_btn.classList.remove("active");
+  tab2_btn.classList.remove("active");
+  tab3_btn.classList.add("active");
+  tab1Content.classList.add("hide");
+  tab2Content.classList.add("hide");
   tab3Content.classList.remove("hide");
-  tab1Content.classList.contains("hide")
-    ? null
-    : tab1Content.classList.add("hide");
-  tab2Content.classList.contains("hide")
-    ? null
-    : tab2Content.classList.add("hide");
-  header.textContent = "Hybrid images";
 
-  document.getElementById("input_img-2").classList.contains("hide")
-    ? document.getElementById("input_img-2").classList.remove("hide")
-    : null;
+  header.textContent = "Hybrid images";
+  document.getElementById("input_img-2").classList.remove("hide")
 });
 
 // tab1_btn.addEventListener("click", function (e) {
@@ -122,20 +91,25 @@ tab3_btn.addEventListener("click", function (e) {
 
 console.log(submit_btn);
 submit_btn.addEventListener("click", function (e) {
-  const formData = new FormData();
-  formData.append("image1", files[0]);
-  formData.append("image2", files[1]);
-  formData.append("operation", "add");
+  let formData = new FormData();
+  formData.set("image1", files[0]);
+  formData.set("image2", files[1]);
+  formData.set("operation", noise_select.value);
   $.ajax({
     type: "POST",
-    url: "/test",
+    url: "/tab1",
     enctype: "multipart/form-data",
     data: formData,
     processData: false,
     contentType: false,
     async: true,
     success: function (res) {
-      console.log(res);
+      outputImage.innerHTML = "";
+      image = document.createElement("img");
+      image.style.width = "100%";
+      image.src = "static/assets/filter_output_image.png?t=" + new Date().getTime();
+      outputImage.appendChild(image);
+      // console.log(outputImage.src);
     },
   });
 });

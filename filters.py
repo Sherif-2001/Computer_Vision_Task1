@@ -7,23 +7,33 @@ import scipy.signal as sig
 
 # --------------------------------- ADD Noise -------------------------------------
 
-def sp_noise(image,prob):
+def sp_noise(image,prob = 0.05):
     '''
     Add salt and pepper noise to image
     prob: Probability of the noise
     '''
-    output = np.zeros(image.shape,np.uint8)
-    thres = 1 - prob 
+    noisy_image = np.zeros(image.shape,np.uint8)
+    thres = 1 - prob
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
             rdn = random.random()
             if rdn < prob:
-                output[i][j] = 0
+                noisy_image[i][j] = 0
             elif rdn > thres:
-                output[i][j] = 255
+                noisy_image[i][j] = 255
             else:
-                output[i][j] = image[i][j]
-    return output
+                noisy_image[i][j] = image[i][j]
+    return noisy_image
+
+def gaussian_noise(image):
+    row,col= image.shape
+    mean = 0
+    var = 0.1
+    sigma = var**0.5
+    gauss = np.random.normal(mean,sigma,(row,col))
+    gauss = gauss.reshape(row,col)
+    noisy = image + gauss
+    return noisy
 
 def unifrom_noise(image):
     x, y = image.shape
@@ -49,6 +59,7 @@ def average_filter(image, maskSize = [3,3]):
     # Convolve the image and the mask
     average = sig.convolve2d(image, mask, mode="same")
     average = average.astype(np.uint8)
+    return average
 
 def gaussian_filter(image, mask_size = 3,sigma = 1):
     # Make gaussian filter mask using gaussian function
@@ -60,6 +71,7 @@ def gaussian_filter(image, mask_size = 3,sigma = 1):
     # Convolve the image and the mask
     gaussian = sig.convolve2d(image, mask, mode="same")
     gaussian = gaussian.astype(np.uint8)
+    return gaussian
 
 def median_filter(image,filter_size = 3):
     # Make an image with the same size of the original
@@ -76,6 +88,7 @@ def median_filter(image,filter_size = 3):
             filteredImage[i, j]= stat.median_low(sorted(temp))
     
     filteredImage = filteredImage.astype(np.uint8)
+    return filteredImage
 
 # --------------------------------- Edge Detection Filters -------------------------------------
 
@@ -161,7 +174,9 @@ def canny_edge_detection(img, weak_th = None, strong_th = None):
                 ids[i_y, i_x]= 1
             else:
                 ids[i_y, i_x]= 2
-       
+
+    return mag   
+
 def prewitt_edge_detection(image):
     maskX = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])
     maskY = np.array([[-1,-1,-1],[0,0,0],[1,1,1]])
@@ -169,6 +184,7 @@ def prewitt_edge_detection(image):
     prewittx = sig.convolve2d(image, maskX)
     prewitty = sig.convolve2d(image, maskY)
     prewitt = np.add(prewittx, prewitty)
+    return prewitt
 
 def roberts_edge_detection(image):
     maskX = np.array([[0,1],[-1,0]])
@@ -178,6 +194,7 @@ def roberts_edge_detection(image):
     robertsx = sig.convolve2d(image, maskX)
     robertsy = sig.convolve2d(image, maskY)
     roberts = np.add(robertsx ,robertsy)
+    return roberts
 
 def sobel_edge_detection(image):
     maskX = [[1, 0, -1],
@@ -193,3 +210,4 @@ def sobel_edge_detection(image):
     sobel = np.add(sobelX,sobelY)
     
     sobel = sobel.astype(np.float64)
+    return sobel

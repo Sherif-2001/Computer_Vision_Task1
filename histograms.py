@@ -16,7 +16,7 @@ def histogram(image):
     return cumulative_sum_arr 
 
 # --------------------------------- Histogram Equalization -------------------------------------
-def histogram_equalization(image,cumulative):
+def equalization(image,cumulative):
     l = 256
     n = image.size
     rows,columns = image.shape
@@ -53,7 +53,8 @@ def global_threshold(image, thres_value, val_high, val_low):
 
 
 # --------------------------------- Local Thresholding -------------------------------------
-def calculate_mean(rowStartIndex,rowEndIndex,colStartIndex,colEndIndex, image):
+
+def calculate_mean(rowStartIndex, rowEndIndex, colStartIndex, colEndIndex, image):
     sum = 0
     for i in range(rowStartIndex,rowEndIndex):
         for j in range(colStartIndex,colEndIndex):
@@ -61,7 +62,7 @@ def calculate_mean(rowStartIndex,rowEndIndex,colStartIndex,colEndIndex, image):
     return sum/((rowEndIndex-rowStartIndex)*(colEndIndex-colStartIndex))
 
 
-def local_threshold(image, val_high, val_low,block_size):
+def local_threshold(image, val_high, val_low, block_size):
     img = image.copy()
     i=0 
     j=0 
@@ -87,7 +88,6 @@ def local_threshold(image, val_high, val_low,block_size):
             else:
                 img[i,j] = val_low
     return img
-
 
 # --------------------------------- RGB Histograms -------------------------------------
 
