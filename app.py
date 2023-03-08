@@ -8,8 +8,8 @@ def home():
 
 @skills_app.route("/test",methods=['POST'])
 def test():
-    image1=request.files['image1']
-    image2=request.files['image2']
+    image1=request.files['image1'].read()
+    image2=request.files['image2'].read()
     operation= request.form['operation']
     return "diaa"
 
