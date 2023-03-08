@@ -31,6 +31,14 @@ button {
     margin: 0.2rem 0.2rem;
     font-size: 1.1rem;
 }
+.input-btn{
+    padding: 0.5rem 1rem;
+    border-radius: 0.8rem;
+    transition: 0.3s;
+    margin: 0.2rem 0.2rem;
+    font-size: 1.1rem;
+}
+
 button:hover{
     background-color: #235a33;
     cursor: pointer;
@@ -90,7 +98,7 @@ color: #d3d3d3;
 
 /* Style the tab content */
 .tabcontent {
-    display: none;
+    display: block;
     height:80vh;
     width: 60vw;
     margin: auto;
@@ -102,3 +110,8 @@ color: #d3d3d3;
     padding: 1rem 3rem;
     background-color: white;
 } 
+
+
+.hide{
+    display: none;
+}
