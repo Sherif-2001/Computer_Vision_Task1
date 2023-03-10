@@ -3,7 +3,7 @@ import numpy as np
 # function that allows you to choose the length of diamiter of the chosen circle of the freq domain
 def draw_cicle(shape,diamiter):
     assert len(shape) == 2
-    TF = np.zeros(shape,dtype=np.bool)
+    TF = np.zeros(shape,dtype=np.uint8)
     center = np.array(TF.shape)/2.0
 
     for iy in range(shape[0]):

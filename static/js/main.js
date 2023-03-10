@@ -18,10 +18,12 @@ const submitButton = document.getElementById("submit-btn");
 
 const filterSelect = document.getElementById("filter-select");
 const noiseSelect = document.getElementById("noise-select");
+const edgeSelect = document.getElementById("edge-select");
 
 const inputImageOne = document.getElementById("input-img-1");
 const inputImageTwo = document.getElementById("input-img-2");
 const outputImage = document.getElementById("output-img");
+const edgeImage = document.getElementById("edge-img");
 
 const files = [2];
 
@@ -49,6 +51,8 @@ tab1Button.addEventListener("click", function (_) {
 
   header.textContent = "Frequency Filters";
   document.getElementById("input-img-2-container").classList.remove("hide");
+  document.getElementById("edge-img-container").classList.remove("hide")
+
 });
 
 tab2Button.addEventListener("click", function (_) {
@@ -61,6 +65,7 @@ tab2Button.addEventListener("click", function (_) {
 
   header.textContent = "Histogram Operations";
   document.getElementById("input-img-2-container").classList.add("hide");
+  document.getElementById("edge-img-container").classList.add("hide")
 });
 
 tab3Button.addEventListener("click", function (_) {
@@ -73,6 +78,7 @@ tab3Button.addEventListener("click", function (_) {
 
   header.textContent = "Hybrid images";
   document.getElementById("input-img-2-container").classList.remove("hide")
+  document.getElementById("edge-img-container").classList.add("hide")
 });
 
 // tab1_btn.addEventListener("click", function (_) {
@@ -99,7 +105,8 @@ function submitClick(tabNum) {
   formData.set("image1", files[0]);
   if (tabNum == 1) {
     formData.set("operation1", noiseSelect.value);
-    formData.set("operation2", filterSelect.value)
+    formData.set("operation2", filterSelect.value);
+    formData.set("operation3", edgeSelect.value);
   } else if (tabNum == 2) {
     formData.set("operation1", noiseSelect.value);
   } else if (tabNum == 3) {
@@ -114,9 +121,13 @@ function submitClick(tabNum) {
     contentType: false,
     async: true,
     success: function (_) {
-      outputImage.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
       if (tabNum == 1) {
         inputImageTwo.src = "static/assets/noisy_image.png?t=" + new Date().getTime();
+        edgeImage.src = "static/assets/edge_image.png?t=" + new Date().getTime();
+        outputImage.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
+      }
+      else if (tabNum == 3) {
+        outputImage.src = "static/assets/hybrid_image.png?t=" + new Date().getTime();
       }
     },
   });

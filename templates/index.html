@@ -40,6 +40,11 @@
                 <img id="output-img" width="100%">
             </div>
 
+            <!-- edge detecton image -->
+            <div id="edge-img-container" class="img">
+                <img id="edge-img" width="100%">
+            </div>
+
         </div>
 
         <!-- upload image 1 -->
@@ -50,7 +55,7 @@
 
         <div class="options" id="tab1">
             <!-- noise select -->
-            <label for="noise-select">Add noise:</label>
+            <label for="noise-select">Add Noise</label>
             <select name="noise-select" id="noise-select">
                 <option value="gaussianNoise">gaussian</option>
                 <option value="uniformNoise">unifrom</option>
@@ -58,7 +63,7 @@
             </select>
 
             <!-- filter select -->
-            <label for="filter-select"> Choose the type of filter you want</label>
+            <label for="filter-select"> Noise Filter</label>
             <select name="filter-select" id="filter-select">
                 <option value="medianFilter">median</option>
                 <option value="averageFilter">average</option>
@@ -66,6 +71,16 @@
                 <!-- <option value="low-pass">low pass</option>
                 <option value="high-pass">high pass</option> -->
             </select>
+
+            <!-- filter select -->
+            <label for="edge-select"> Edge Detection</label>
+            <select name="edge-select" id="edge-select">
+                <option value="canny">canny</option>
+                <option value="prewitt">prewitt</option>
+                <option value="roberts">roberts</option>
+                <option value="sobel">sobel</option>
+            </select>
+
         </div>
 
         <div class="options hide" id="tab2">

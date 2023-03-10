@@ -172,18 +172,23 @@ def prewitt_edge_detection(image):
 
     prewittx = sig.convolve2d(image, maskX)
     prewitty = sig.convolve2d(image, maskY)
-    prewitt = np.add(prewittx, prewitty)
-    return prewitt
+    edge_image = np.add(prewittx, prewitty)
+    return edge_image
 
 def roberts_edge_detection(image):
     maskX = np.array([[0,1],[-1,0]])
     maskY = np.array([[1,0],[0,-1]])
-    
-    image /= 255
+
+    image = image.astype(np.float64)
+    image /= 255.0
+
     robertsx = sig.convolve2d(image, maskX)
     robertsy = sig.convolve2d(image, maskY)
-    roberts = np.add(robertsx ,robertsy)
-    return roberts
+
+    edge_image = np.add(robertsx ,robertsy)
+    edge_image *= 255
+
+    return edge_image
 
 def sobel_edge_detection(image):
     maskX = [[1, 0, -1],
@@ -196,7 +201,6 @@ def sobel_edge_detection(image):
     
     sobelX = sig.convolve2d(image, maskX)
     sobelY = sig.convolve2d(image, maskY )
-    sobel = np.add(sobelX,sobelY)
+    edge_image = np.add(sobelX,sobelY)
     
-    sobel = sobel.astype(np.float64)
-    return sobel
+    return edge_image

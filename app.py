@@ -49,6 +49,7 @@ def tab1():
     input_image = cv2.imread("static/assets/image1.png",0)
     operation1 = request.form['operation1']
     operation2 = request.form['operation2']
+    operation3 = request.form['operation3']
 
     # Retrieve the output image after executing the operation
     noisy_image = executeFilterOperation(operation1, input_image)
@@ -56,6 +57,10 @@ def tab1():
 
     filtered_image = executeFilterOperation(operation2, noisy_image)
     cv2.imwrite("static/assets/filtered_image.png",filtered_image)
+
+    edge_image = executeFilterOperation(operation3, input_image)
+    cv2.imwrite("static/assets/edge_image.png",edge_image)
+
     return "tab1"
 
 @app.route("/tab2", methods = ["POST","GET"])
@@ -95,7 +100,7 @@ def tab3():
     output_image = frequency.hybrid_image(input_image1, input_image2)
 
     # Retrieve the output image after executing the operation
-    cv2.imwrite("static/assets/hybrid_output_image.png",output_image)    
+    cv2.imwrite("static/assets/hybrid_image.png",output_image) 
 
     return "tab3"
 
