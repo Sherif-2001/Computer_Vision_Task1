@@ -1,83 +1,88 @@
 console.log("Hello there!");
 
 const header = document.querySelector(".header");
-const input_btns = document.querySelectorAll(".input-btn");
+const inputButtons = document.querySelectorAll(".input-btn");
+
 const tab1Content = document.getElementById("tab1");
 const tab2Content = document.getElementById("tab2");
 const tab3Content = document.getElementById("tab3");
-const tab1_btn = document.getElementById("tab1-btn");
-const tab2_btn = document.getElementById("tab2-btn");
-const tab3_btn = document.getElementById("tab3-btn");
-const inputImageOne = document.querySelector(".input_img");
-const inputOutput = document.querySelector(".input-output");
-const outputImage = document.getElementById("output_img");
-const submit_btn = document.getElementById("submit-btn");
+
+const tab1Button = document.getElementById("tab1-btn");
+const tab2Button = document.getElementById("tab2-btn");
+const tab3Button = document.getElementById("tab3-btn");
+
+const imagesContainers = document.getElementById("images-containers");
+const outputImageContainer = document.getElementById("output-img-container");
+
+const submitButton = document.getElementById("submit-btn");
+
+const filterSelect = document.getElementById("filter-select");
+const noiseSelect = document.getElementById("noise-select");
+
+const inputImageOne = document.getElementById("input-img-1");
+const inputImageTwo = document.getElementById("input-img-2");
+const outputImage = document.getElementById("output-img");
+
 const files = [2];
 
-const filter_select = document.getElementById("filter-select");
-const noise_select = document.getElementById("noise-select");
-
-input_btns[0].addEventListener("change", function (e) {
-  const file = input_btns[0].files[0];
+inputButtons[0].addEventListener("change", function (_) {
+  const file = inputButtons[0].files[0];
   files[0] = file;
   inputImageOne.classList.remove("hide");
   inputImageOne.src = URL.createObjectURL(file);
 });
 
-input_btns[1].addEventListener("change", function (e) {
-  const file = input_btns[1].files[0];
-  console.log(file);
+inputButtons[1].addEventListener("change", function (_) {
+  const file = inputButtons[1].files[0];
   files[1] = file;
-  const inputImageTwo = document.getElementById("input-img-2");
-  console.log(inputImageTwo);
   inputImageTwo.classList.remove("hide");
   inputImageTwo.src = URL.createObjectURL(file);
 });
 
-tab1_btn.addEventListener("click", function (e) {
-  tab1_btn.classList.add("active");
-  tab2_btn.classList.remove("active");
-  tab3_btn.classList.remove("active");
+tab1Button.addEventListener("click", function (_) {
+  tab1Button.classList.add("active");
+  tab2Button.classList.remove("active");
+  tab3Button.classList.remove("active");
   tab1Content.classList.remove("hide");
   tab2Content.classList.add("hide");
   tab3Content.classList.add("hide");
 
   header.textContent = "Frequency Filters";
-  document.getElementById("input_img-2").classList.add("hide");
+  document.getElementById("input-img-2-container").classList.remove("hide");
 });
 
-tab2_btn.addEventListener("click", function (e) {
-  tab1_btn.classList.remove("active");
-  tab2_btn.classList.add("active");
-  tab3_btn.classList.remove("active");
+tab2Button.addEventListener("click", function (_) {
+  tab1Button.classList.remove("active");
+  tab2Button.classList.add("active");
+  tab3Button.classList.remove("active");
   tab1Content.classList.add("hide");
   tab2Content.classList.remove("hide");
   tab3Content.classList.add("hide");
 
   header.textContent = "Histogram Operations";
-  document.getElementById("input_img-2").classList.add("hide");
+  document.getElementById("input-img-2-container").classList.add("hide");
 });
 
-tab3_btn.addEventListener("click", function (e) {
-  tab1_btn.classList.remove("active");
-  tab2_btn.classList.remove("active");
-  tab3_btn.classList.add("active");
+tab3Button.addEventListener("click", function (_) {
+  tab1Button.classList.remove("active");
+  tab2Button.classList.remove("active");
+  tab3Button.classList.add("active");
   tab1Content.classList.add("hide");
   tab2Content.classList.add("hide");
   tab3Content.classList.remove("hide");
 
   header.textContent = "Hybrid images";
-  document.getElementById("input_img-2").classList.remove("hide")
+  document.getElementById("input-img-2-container").classList.remove("hide")
 });
 
-// tab1_btn.addEventListener("click", function (e) {
+// tab1_btn.addEventListener("click", function (_) {
 
 // });
 // const input = document.getElementById("image_input")
 // const output = document.getElementById("image_output")
 // let imagesArray = []
 
-// image_input.addEventListener("change", function(e) {
+// image_input.addEventListener("change", function(_) {
 //     const file = input.files
 //     imagesArray.push(file[0])
 //     displayImages()
@@ -91,15 +96,13 @@ tab3_btn.addEventListener("click", function (e) {
 
 function submitClick(tabNum) {
   let formData = new FormData();
+  formData.set("image1", files[0]);
   if (tabNum == 1) {
-    formData.set("image1", files[0]);
-    formData.set("operation1", noise_select.value);
-    formData.set("operation2", filter_select.value)
+    formData.set("operation1", noiseSelect.value);
+    formData.set("operation2", filterSelect.value)
   } else if (tabNum == 2) {
-    formData.set("image1", files[0]);
-    formData.set("operation1", noise_select.value);
+    formData.set("operation1", noiseSelect.value);
   } else if (tabNum == 3) {
-    formData.set("image1", files[0]);
     formData.set("image2", files[1]);
   }
   $.ajax({
@@ -111,20 +114,18 @@ function submitClick(tabNum) {
     contentType: false,
     async: true,
     success: function (_) {
-      outputImage.innerHTML = "";
-      image = document.createElement("img");
-      image.style.width = "100%";
-      image.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
-      outputImage.appendChild(image);
+      outputImage.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
+      if (tabNum == 1) {
+        inputImageTwo.src = "static/assets/noisy_image.png?t=" + new Date().getTime();
+      }
     },
   });
 }
 
-console.log(submit_btn);
-submit_btn.addEventListener("click", function (e) {
-  if (tab1_btn.classList.contains("active")) submitClick(1);
+submitButton.addEventListener("click", function (e) {
+  if (tab1Button.classList.contains("active")) submitClick(1);
 
-  else if (tab2_btn.classList.contains("active")) submitClick(2);
+  else if (tab2Button.classList.contains("active")) submitClick(2);
 
-  else if (tab3_btn.classList.contains("active")) submitClick(3);
+  else if (tab3Button.classList.contains("active")) submitClick(3);
 });

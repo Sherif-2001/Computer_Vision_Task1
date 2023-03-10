@@ -4,10 +4,9 @@ import cv2
 import numpy as np
 import scipy.signal as sig
 
+# --------------------------------- Add Noise -------------------------------------
 
-# --------------------------------- ADD Noise -------------------------------------
-
-def salt_pepper_noise(image,prob = 1/100):
+def salt_pepper_noise(image, prob = 0.05):
     '''
     Add salt and pepper noise to image
     prob: Probability of the noise
@@ -25,29 +24,16 @@ def salt_pepper_noise(image,prob = 1/100):
                 noisy_image[i][j] = image[i][j]
     return noisy_image
 
-def gaussian_noise(image):
-    row,col= image.shape
-    mean = 0
-    var = 0.1
-    sigma = var**0.5
-    gauss = np.random.normal(mean,sigma,(row,col))
-    gauss = gauss.reshape(row,col)
-    noisy_image = image + gauss
+def gaussian_noise(image, mean=0, std=0.1):
+    noise = np.multiply(np.random.normal(mean, std, image.shape), 255)
+    noisy_image = np.clip(image.astype(int)+noise, 0, 255)
     return noisy_image
 
-def unifrom_noise(image):
-    x, y = image.shape
-    mean = 0
-    max = 0.1
-    noise = np.zeros((x,y), dtype=np.float64)
-    for i in range(x):
-        for j in range(y):
-            noise[i][j] = np.random.uniform(mean,max)
-    noisy_img = image + noise
-    # noise_img +=255
-    noisy_img = noisy_img*255
-    noisy_img = np.clip(noise,0,1)
-    return noisy_img
+def uniform_noise(image, prob=0.1):
+    levels = int((prob * 255) // 2)
+    noise = np.random.uniform(-levels, levels, image.shape)
+    noisy_image = np.clip(image.astype(int) + noise, 0, 255)
+    return noisy_image
 
 # --------------------------------- Noise Filters -------------------------------------
 
@@ -71,20 +57,26 @@ def gaussian_filter(image, mask_size = 3,sigma = 1):
     filtered_image = sig.convolve2d(image, mask, mode="same")
     return filtered_image
 
-def median_filter(image,filter_size = 3):
-    # Make an image with the same size of the original
+def median_filter(image, filter_size = 3):
     row, col = image.shape
-    filtered_image = np.zeros([row+2,col+2])
-
-    # Index that is used for every filter size
+    filtered_image = np.zeros([row,col])
     filter_index = filter_size // 2
-    for i in range(1, row-1):
-        for j in range(1, col-1):
+
+    for i in range(row):
+        for j in range(col):
             temp = []
-            for k in range(-filter_index,filter_index):
-                temp.append(image[i+k, j+k])
-            filtered_image[i, j]= stat.median_low(sorted(temp))
-    
+            for z in range(filter_size):
+                if i + z - filter_index < 0 or i + z - filter_index > row - 1:
+                    for _ in range(filter_size):
+                        temp.append(0)
+                elif j + z - filter_index < 0 or j + filter_index > col - 1:
+                    temp.append(0)
+                else:
+                    for k in range(filter_size):
+                        temp.append(image[i + z - filter_index][j + k - filter_index])
+
+            temp.sort()
+            filtered_image[i][j] = temp[len(temp) // 2]
     return filtered_image
 
 # --------------------------------- Edge Detection Filters -------------------------------------
@@ -94,8 +86,8 @@ def canny_edge_detection(img, weak_th = None, strong_th = None):
 # weak_th and strong_th are thresholds for double thresholding step
        
     # Noise reduction step
-    img = cv2.GaussianBlur(img, (5, 5), 1.4)
-       
+    img = gaussian_filter(img)
+
     # Calculating the gradients
     gx = cv2.Sobel(np.float32(img), cv2.CV_64F, 1, 0, 3)
     gy = cv2.Sobel(np.float32(img), cv2.CV_64F, 0, 1, 3)

@@ -23,22 +23,30 @@
     <!-- Tab content for frequency filters-->
     <div id="filter" class="tabcontent">
         <h1 class="header">Frequency Filters</h1>
-        <!-- <button>upload image</button> -->
-        <input class="input-btn" type="file" accept="image/jpeg, image/png, image/jpg">
 
-        <div class="input-output">
-            <!-- input image -->
-            <div id="input_img" class="img">
-                <img class="input_img hide" width="100%">
+        <div class="images-containers">
+            <!-- input image 1 -->
+            <div id="input-image-1-container" class="img">
+                <img id="input-img-1" width="100%">
+            </div>
 
+            <!-- input image 2 -->
+            <div id="input-img-2-container" class="img">
+                <img id="input-img-2" width="100%">
             </div>
-            <div id="input_img-2" class="img hide">
-                <img class="input_img hide" id="input-img-2" width="100%">
-            </div>
+
             <!-- output image  -->
-            <div id="output_img" class="img"></div>
+            <div id="output-img-container" class="img">
+                <img id="output-img" width="100%">
+            </div>
 
         </div>
+
+        <!-- upload image 1 -->
+        <input class="input-btn" type="file" accept="image/jpeg, image/png, image/jpg">
+
+        <!-- upload image 2 -->
+        <input class="input-btn hide" id="tab3" type="file" accept="image/jpeg, image/png, image/jpg">
 
         <div class="options" id="tab1">
             <!-- noise select -->
@@ -59,6 +67,7 @@
                 <option value="high-pass">high pass</option> -->
             </select>
         </div>
+
         <div class="options hide" id="tab2">
             <button>equalize image</button>
             <button>normalize image</button>
@@ -66,13 +75,8 @@
             <button>local thresholding</button>
             <input type="range" min="2" max="20" step="1">
         </div>
-        <div class="input-output hide" id="tab3">
-            <input class="input-btn" type="file" accept="image/jpeg, image/png, image/jpg">
 
-        </div>
         <button type="submit" id="submit-btn">Submit</button>
-
-
 
     </div>
 
@@ -83,11 +87,11 @@
         <h1>Histogram Operations</h1>
         <button>upload image</button> -->
 
-    <!-- <div class="input-output">
+    <!-- <div class="images-containers">
             input image
         <div id="input_img" class="img"></div>
          output image  
-        <div id="output_img" class="img"></div>
+        <div id="output-img-container" class="img"></div>
     </div> -->
 
     <!-- </div> -->
@@ -98,6 +102,5 @@
 
 <script defer src="{{url_for('static', filename = './js/main.js')}}"></script>
 <script defer src="{{url_for('static', filename = './js/jquery-3.6.1.min.js')}}"></script>
-
 
 </html>

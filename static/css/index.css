@@ -53,7 +53,7 @@ button:hover{
     background-size: cover;
     margin: 0.5rem 2rem;
 }
-.input-output {
+.images-containers {
     display: flex;
     justify-content: center;
 }

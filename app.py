@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 filterOperationsDict = {
     "gaussianNoise":filters.gaussian_noise,
-    "uniformNoise":filters.unifrom_noise,
+    "uniformNoise":filters.uniform_noise,
     "saltAndPepper": filters.salt_pepper_noise,
     "gaussianFilter":filters.gaussian_filter,
     "averageFilter":filters.average_filter,
@@ -70,8 +70,8 @@ def tab2():
     operation1 = request.form['operation1']
 
     # Retrieve the output image after executing the operation
-    output_image = executeFilterOperation(operation1, input_image)
-    cv2.imwrite("static/assets/histogram_output_image.png",output_image)
+    output_image = executeHistogramOperation(operation1, input_image)
+    cv2.imwrite("static/assets/histogram_image.png",output_image)
     
     return "tab2"
 
