@@ -10,7 +10,7 @@ app = Flask(__name__)
 filterOperationsDict = {
     "gaussianNoise":filters.gaussian_noise,
     "uniformNoise":filters.unifrom_noise,
-    "saltAndPepper": filters.sp_noise,
+    "saltAndPepper": filters.salt_pepper_noise,
     "gaussianFilter":filters.gaussian_filter,
     "averageFilter":filters.average_filter,
     "medianFilter":filters.median_filter,

@@ -7,7 +7,7 @@ import scipy.signal as sig
 
 # --------------------------------- ADD Noise -------------------------------------
 
-def sp_noise(image,prob = 1/100):
+def salt_pepper_noise(image,prob = 1/100):
     '''
     Add salt and pepper noise to image
     prob: Probability of the noise
@@ -101,11 +101,11 @@ def canny_edge_detection(img, weak_th = None, strong_th = None):
     gy = cv2.Sobel(np.float32(img), cv2.CV_64F, 0, 1, 3)
       
     # Conversion of Cartesian coordinates to polar 
-    mag, ang = cv2.cartToPolar(gx, gy, angleInDegrees = True)
+    magnitude, ang = cv2.cartToPolar(gx, gy, angleInDegrees = True)
        
     # setting the minimum and maximum thresholds 
     # for double thresholding
-    mag_max = np.max(mag)
+    mag_max = np.max(magnitude)
     if not weak_th:weak_th = mag_max * 0.1
     if not strong_th:strong_th = mag_max * 0.5
       
@@ -149,30 +149,30 @@ def canny_edge_detection(img, weak_th = None, strong_th = None):
                
             # Non-maximum suppression step
             if width>neighb_1_x>= 0 and height>neighb_1_y>= 0:
-                if mag[i_y, i_x]<mag[neighb_1_y, neighb_1_x]:
-                    mag[i_y, i_x]= 0
+                if magnitude[i_y, i_x]<magnitude[neighb_1_y, neighb_1_x]:
+                    magnitude[i_y, i_x]= 0
                     continue
    
             if width>neighb_2_x>= 0 and height>neighb_2_y>= 0:
-                if mag[i_y, i_x]<mag[neighb_2_y, neighb_2_x]:
-                    mag[i_y, i_x]= 0
+                if magnitude[i_y, i_x]<magnitude[neighb_2_y, neighb_2_x]:
+                    magnitude[i_y, i_x]= 0
    
     ids = np.zeros_like(img)
        
-    # double thresholding step
+    # double thresholding
     for i_x in range(width):
         for i_y in range(height):
               
-            grad_mag = mag[i_y, i_x]
+            grad_mag = magnitude[i_y, i_x]
               
             if grad_mag<weak_th:
-                mag[i_y, i_x]= 0
+                magnitude[i_y, i_x]= 0
             elif strong_th>grad_mag>= weak_th:
                 ids[i_y, i_x]= 1
             else:
                 ids[i_y, i_x]= 2
 
-    return mag   
+    return magnitude
 
 def prewitt_edge_detection(image):
     maskX = np.array([[-1,0,1],[-1,0,1],[-1,0,1]])

@@ -11,7 +11,7 @@ def draw_cicle(shape,diamiter):
             TF[iy,ix] = (iy- center[0])**2 + (ix - center[1])**2 < diamiter **2
     return(TF)
 
-#function that allows you to reverse the image to time domain again
+# function that allows you to reverse the image to time domain again
 def inv_FFT_all_channel(fft_img):
     img_reco = []
     for ichannel in range(fft_img.shape[2]):
