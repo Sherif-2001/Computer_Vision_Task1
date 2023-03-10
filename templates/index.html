@@ -52,18 +52,17 @@
             <!-- filter select -->
             <label for="filter-select"> Choose the type of filter you want</label>
             <select name="filter-select" id="filter-select">
-                <option value="median">median</option>
-                <option value="average">average</option>
-                <option value="gaussian">gaussian</option>
-                <option value="low-pass">low pass</option>
-                <option value="high-pass">high pass</option>
+                <option value="medianFilter">median</option>
+                <option value="averageFilter">average</option>
+                <option value="gaussianFilter">gaussian</option>
+                <!-- <option value="low-pass">low pass</option>
+                <option value="high-pass">high pass</option> -->
             </select>
         </div>
         <div class="options hide" id="tab2">
             <button>equalize image</button>
             <button>normalize image</button>
             <button>Global thresholding</button>
-            <br>
             <button>local thresholding</button>
             <input type="range" min="2" max="20" step="1">
         </div>

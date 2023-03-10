@@ -7,7 +7,7 @@ import scipy.signal as sig
 
 # --------------------------------- ADD Noise -------------------------------------
 
-def sp_noise(image,prob = 0.05):
+def sp_noise(image,prob = 1/100):
     '''
     Add salt and pepper noise to image
     prob: Probability of the noise
@@ -32,8 +32,8 @@ def gaussian_noise(image):
     sigma = var**0.5
     gauss = np.random.normal(mean,sigma,(row,col))
     gauss = gauss.reshape(row,col)
-    noisy = image + gauss
-    return noisy
+    noisy_image = image + gauss
+    return noisy_image
 
 def unifrom_noise(image):
     x, y = image.shape
@@ -43,11 +43,11 @@ def unifrom_noise(image):
     for i in range(x):
         for j in range(y):
             noise[i][j] = np.random.uniform(mean,max)
-    noise_img = image + noise
+    noisy_img = image + noise
     # noise_img +=255
-    noise_img = noise_img*255
-    noise_img = np.clip(noise,0,1)
-    return noise_img
+    noisy_img = noisy_img*255
+    noisy_img = np.clip(noise,0,1)
+    return noisy_img
 
 # --------------------------------- Noise Filters -------------------------------------
 
@@ -57,9 +57,8 @@ def average_filter(image, maskSize = [3,3]):
     mask = mask / sum(sum(mask))
 
     # Convolve the image and the mask
-    average = sig.convolve2d(image, mask, mode="same")
-    average = average.astype(np.uint8)
-    return average
+    filtered_image = sig.convolve2d(image, mask, mode="same")
+    return filtered_image
 
 def gaussian_filter(image, mask_size = 3,sigma = 1):
     # Make gaussian filter mask using gaussian function
@@ -69,26 +68,24 @@ def gaussian_filter(image, mask_size = 3,sigma = 1):
     mask = mask/np.sum(mask)
 
     # Convolve the image and the mask
-    gaussian = sig.convolve2d(image, mask, mode="same")
-    gaussian = gaussian.astype(np.uint8)
-    return gaussian
+    filtered_image = sig.convolve2d(image, mask, mode="same")
+    return filtered_image
 
 def median_filter(image,filter_size = 3):
     # Make an image with the same size of the original
-    m, n = image.shape
-    filteredImage = np.zeros([m,n])
+    row, col = image.shape
+    filtered_image = np.zeros([row+2,col+2])
 
     # Index that is used for every filter size
     filter_index = filter_size // 2
-    for i in range(1, m-1):
-        for j in range(1, n-1):
+    for i in range(1, row-1):
+        for j in range(1, col-1):
             temp = []
             for k in range(-filter_index,filter_index):
                 temp.append(image[i+k, j+k])
-            filteredImage[i, j]= stat.median_low(sorted(temp))
+            filtered_image[i, j]= stat.median_low(sorted(temp))
     
-    filteredImage = filteredImage.astype(np.uint8)
-    return filteredImage
+    return filtered_image
 
 # --------------------------------- Edge Detection Filters -------------------------------------
 

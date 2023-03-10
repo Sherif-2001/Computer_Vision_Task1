@@ -47,8 +47,8 @@ button:hover{
 }
 /* image upload styling */
 .img {
-    width: 15rem;
-    height: 15rem;
+    width: 20rem;
+    height: 20rem;
     border: 1px solid black;
     background-size: cover;
     margin: 0.5rem 2rem;

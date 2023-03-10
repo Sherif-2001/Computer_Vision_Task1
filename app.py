@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import cv2
 from PIL import Image
-import base64
 import filters
 import frequency
 import histograms
@@ -47,17 +46,19 @@ def tab1():
     image1Show.save(f"static/assets/image1.png")
 
     # Get the input image and the operation to be executed
-    input_image = cv2.imread("static/assets/image1.png",-1)
-    operation = request.form['operation']
+    input_image = cv2.imread("static/assets/image1.png",0)
+    operation1 = request.form['operation1']
+    operation2 = request.form['operation2']
 
     # Retrieve the output image after executing the operation
-    output_image = executeFilterOperation(operation, input_image)
-    cv2.imwrite("static/assets/filter_output_image.png",output_image)
+    noisy_image = executeFilterOperation(operation1, input_image)
+    cv2.imwrite("static/assets/noisy_image.png",noisy_image)
 
-    encoded_string = base64.b64encode(output_image)
-    return encoded_string
+    filtered_image = executeFilterOperation(operation2, noisy_image)
+    cv2.imwrite("static/assets/filtered_image.png",filtered_image)
+    return "tab1"
 
-@app.route("/tab2")
+@app.route("/tab2", methods = ["POST","GET"])
 def tab2():
     # Save the image to the assets
     image1 = request.files['image1']
@@ -66,15 +67,15 @@ def tab2():
 
     # Get the input image and the operation to be executed
     input_image = cv2.imread("static/assets/image1.png",-1)
-    operation = request.form['operation']
+    operation1 = request.form['operation1']
 
     # Retrieve the output image after executing the operation
-    output_image = executeFilterOperation(operation, input_image)
+    output_image = executeFilterOperation(operation1, input_image)
     cv2.imwrite("static/assets/histogram_output_image.png",output_image)
     
     return "tab2"
 
-@app.route("/tab3")
+@app.route("/tab3", methods = ["POST","GET"])
 def tab3():
 
     # Save the image to the assets
@@ -91,7 +92,7 @@ def tab3():
     input_image1 = cv2.imread("static/assets/image1.png",-1)
     input_image2 = cv2.imread("static/assets/image2.png",-1)
 
-    output_image = frequency.hybrid_image(input_image1,input_image2)
+    output_image = frequency.hybrid_image(input_image1, input_image2)
 
     # Retrieve the output image after executing the operation
     cv2.imwrite("static/assets/hybrid_output_image.png",output_image)    

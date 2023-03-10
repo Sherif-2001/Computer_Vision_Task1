@@ -89,27 +89,42 @@ tab3_btn.addEventListener("click", function (e) {
 //     </div>`
 // }
 
-console.log(submit_btn);
-submit_btn.addEventListener("click", function (e) {
+function submitClick(tabNum) {
   let formData = new FormData();
-  formData.set("image1", files[0]);
-  formData.set("image2", files[1]);
-  formData.set("operation", noise_select.value);
+  if (tabNum == 1) {
+    formData.set("image1", files[0]);
+    formData.set("operation1", noise_select.value);
+    formData.set("operation2", filter_select.value)
+  } else if (tabNum == 2) {
+    formData.set("image1", files[0]);
+    formData.set("operation1", noise_select.value);
+  } else if (tabNum == 3) {
+    formData.set("image1", files[0]);
+    formData.set("image2", files[1]);
+  }
   $.ajax({
     type: "POST",
-    url: "/tab1",
+    url: "/tab" + tabNum,
     enctype: "multipart/form-data",
     data: formData,
     processData: false,
     contentType: false,
     async: true,
-    success: function (res) {
+    success: function (_) {
       outputImage.innerHTML = "";
       image = document.createElement("img");
       image.style.width = "100%";
-      image.src = "static/assets/filter_output_image.png?t=" + new Date().getTime();
+      image.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
       outputImage.appendChild(image);
-      // console.log(outputImage.src);
     },
   });
+}
+
+console.log(submit_btn);
+submit_btn.addEventListener("click", function (e) {
+  if (tab1_btn.classList.contains("active")) submitClick(1);
+
+  else if (tab2_btn.classList.contains("active")) submitClick(2);
+
+  else if (tab3_btn.classList.contains("active")) submitClick(3);
 });
