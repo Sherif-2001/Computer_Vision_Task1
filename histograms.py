@@ -9,15 +9,25 @@ def histogram(image):
     for i in range(rows):
         for j in range(columns):
             frequency[image[i][j]] = frequency[image[i][j]] + 1
-    
+    return frequency
+
+def cumulative_sum(frequency):
     cumulative_sum_arr = frequency
     for i in range(1,frequency.size):
         cumulative_sum_arr[i] = cumulative_sum_arr[i] + cumulative_sum_arr[i-1]
-    return cumulative_sum_arr
+    return cumulative_sum_arr 
+
+def saveHistogramPlot(image,index):
+    plt.figure()
+    plt.plot(histogram(image))
+    if index == 1:
+        plt.savefig("static/assets/histogram_plot.png", bbox_inches='tight', pad_inches=0)
+    elif index == 2:
+        plt.savefig("static/assets/edited_histogram_plot.png", bbox_inches='tight', pad_inches=0)
 
 # --------------------------------- Histogram Equalization -------------------------------------
 def equalization(image):
-    cumulative = histogram(image)
+    cumulative = cumulative_sum(histogram(image))
     l = 256
     n = image.size
     rows,columns = image.shape
@@ -28,6 +38,7 @@ def equalization(image):
     for i in range (rows):
         for j in range(columns):
            new_image[i][j] =  arr[image[i][j]]
+        
     return new_image
 
 # --------------------------------- Normalization -------------------------------------
@@ -39,19 +50,19 @@ def normalization(image):
     for i in range(rows):
         for j in range(columns):
             new_image[i][j] = ((image[i][j] - min_level)/(max_level-min_level))*255
+    
     return new_image
 
 # --------------------------------- Global Thresholding -------------------------------------
-def global_threshold(image, val_low = 127, val_high = 250, thres_value = 0):
-    img = image.copy()
+def global_threshold(image, val_low = 0, val_high = 255, thres_value = 127):
+    new_image = image.copy()
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
             if image[i,j] > thres_value:
-                img[i,j] = val_high
+                new_image[i,j] = val_high
             else:
-                img[i,j] = val_low
-    return img
-
+                new_image[i,j] = val_low
+    return new_image
 
 # --------------------------------- Local Thresholding -------------------------------------
 
@@ -62,9 +73,8 @@ def calculate_mean(rowStartIndex, rowEndIndex, colStartIndex, colEndIndex, image
             sum += image[i,j]
     return sum/((rowEndIndex-rowStartIndex)*(colEndIndex-colStartIndex))
 
-
-def local_threshold(image, val_low = 127, val_high = 250, block_size = 5):
-    img = image.copy()
+def local_threshold(image, val_low = 0, val_high = 255, block_size = 5):
+    new_image = image.copy()
     i=0 
     j=0 
     lastMean = 127
@@ -76,19 +86,19 @@ def local_threshold(image, val_low = 127, val_high = 250, block_size = 5):
             for k in range(i,i+block_size):
                 for l in range(j,j+block_size):
                     if image[k,l] > mean:
-                        img[k,l] = val_high
+                        new_image[k,l] = val_high
                     else:
-                        img[k,l] = val_low
+                        new_image[k,l] = val_low
             j+=block_size           
         i+=block_size
         
     for i in range(i,image.shape[0]):
         for j in range(j,image.shape[1]):
             if image[i,j] > lastMean:
-                img[i,j] = val_high
+                new_image[i,j] = val_high
             else:
-                img[i,j] = val_low
-    return img
+                new_image[i,j] = val_low
+    return new_image
 
 # --------------------------------- RGB Histograms -------------------------------------
 

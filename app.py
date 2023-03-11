@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request
+import base64
+import io
+from flask import Flask, render_template, request, send_file
 import cv2
 from PIL import Image
 import filters
@@ -21,7 +23,6 @@ filterOperationsDict = {
 }
 
 histogramsOperationsDict = {
-    "histogramPlot" : histograms.histogram,
     "equalize": histograms.equalization,
     "normalize":histograms.normalization,
     "localThreshold":histograms.local_threshold,
@@ -71,13 +72,16 @@ def tab2():
     image1Show.save(f"static/assets/image1.png")
 
     # Get the input image and the operation to be executed
-    input_image = cv2.imread("static/assets/image1.png",-1)
+    input_image = cv2.imread("static/assets/image1.png",0)
     operation1 = request.form['operation1']
 
     # Retrieve the output image after executing the operation
-    output_image = executeHistogramOperation(operation1, input_image)
+    output_image  = executeHistogramOperation(operation1, input_image)
     cv2.imwrite("static/assets/histogram_image.png",output_image)
     
+    histograms.saveHistogramPlot(input_image, 1)
+    histograms.saveHistogramPlot(output_image, 2)
+
     return "tab2"
 
 @app.route("/tab3", methods = ["POST","GET"])
@@ -100,7 +104,7 @@ def tab3():
     output_image = frequency.hybrid_image(input_image1, input_image2)
 
     # Retrieve the output image after executing the operation
-    cv2.imwrite("static/assets/hybrid_image.png",output_image) 
+    cv2.imwrite("static/assets/hybrid_image.png",output_image)
 
     return "tab3"
 
