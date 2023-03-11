@@ -13,10 +13,11 @@ def histogram(image):
     cumulative_sum_arr = frequency
     for i in range(1,frequency.size):
         cumulative_sum_arr[i] = cumulative_sum_arr[i] + cumulative_sum_arr[i-1]
-    return cumulative_sum_arr 
+    return cumulative_sum_arr
 
 # --------------------------------- Histogram Equalization -------------------------------------
-def equalization(image,cumulative):
+def equalization(image):
+    cumulative = histogram(image)
     l = 256
     n = image.size
     rows,columns = image.shape
@@ -41,7 +42,7 @@ def normalization(image):
     return new_image
 
 # --------------------------------- Global Thresholding -------------------------------------
-def global_threshold(image, thres_value, val_high, val_low):
+def global_threshold(image, val_low = 127, val_high = 250, thres_value = 0):
     img = image.copy()
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
@@ -62,7 +63,7 @@ def calculate_mean(rowStartIndex, rowEndIndex, colStartIndex, colEndIndex, image
     return sum/((rowEndIndex-rowStartIndex)*(colEndIndex-colStartIndex))
 
 
-def local_threshold(image, val_high, val_low, block_size):
+def local_threshold(image, val_low = 127, val_high = 250, block_size = 5):
     img = image.copy()
     i=0 
     j=0 

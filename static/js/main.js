@@ -19,11 +19,14 @@ const submitButton = document.getElementById("submit-btn");
 const filterSelect = document.getElementById("filter-select");
 const noiseSelect = document.getElementById("noise-select");
 const edgeSelect = document.getElementById("edge-select");
+const histogramSelect = document.getElementById("histogram-select");
 
 const inputImageOne = document.getElementById("input-img-1");
 const inputImageTwo = document.getElementById("input-img-2");
 const outputImage = document.getElementById("output-img");
 const edgeImage = document.getElementById("edge-img");
+
+
 
 const files = [2];
 
@@ -81,24 +84,6 @@ tab3Button.addEventListener("click", function (_) {
   document.getElementById("edge-img-container").classList.add("hide")
 });
 
-// tab1_btn.addEventListener("click", function (_) {
-
-// });
-// const input = document.getElementById("image_input")
-// const output = document.getElementById("image_output")
-// let imagesArray = []
-
-// image_input.addEventListener("change", function(_) {
-//     const file = input.files
-//     imagesArray.push(file[0])
-//     displayImages()
-// })
-
-// function displayImages(image) {
-//     output.innerHTML = `<div class="image">
-//     <img src="${URL.createObjectURL(image)}" alt="image">
-//     </div>`
-// }
 
 function submitClick(tabNum) {
   let formData = new FormData();
@@ -108,7 +93,7 @@ function submitClick(tabNum) {
     formData.set("operation2", filterSelect.value);
     formData.set("operation3", edgeSelect.value);
   } else if (tabNum == 2) {
-    formData.set("operation1", noiseSelect.value);
+    formData.set("operation1", histogramSelect.value);
   } else if (tabNum == 3) {
     formData.set("image2", files[1]);
   }
@@ -125,6 +110,8 @@ function submitClick(tabNum) {
         inputImageTwo.src = "static/assets/noisy_image.png?t=" + new Date().getTime();
         edgeImage.src = "static/assets/edge_image.png?t=" + new Date().getTime();
         outputImage.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
+      } else if (tabNum == 2) {
+        outputImage.src = "static/assets/histogram_image.png?t=" + new Date().getTime();
       }
       else if (tabNum == 3) {
         outputImage.src = "static/assets/hybrid_image.png?t=" + new Date().getTime();
@@ -133,7 +120,7 @@ function submitClick(tabNum) {
   });
 }
 
-submitButton.addEventListener("click", function (e) {
+submitButton.addEventListener("click", function (_) {
   if (tab1Button.classList.contains("active")) submitClick(1);
 
   else if (tab2Button.classList.contains("active")) submitClick(2);

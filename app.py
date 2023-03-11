@@ -22,17 +22,17 @@ filterOperationsDict = {
 
 histogramsOperationsDict = {
     "histogramPlot" : histograms.histogram,
-    "histogramEqualization": histograms.equalization,
-    "histogramNormalization":histograms.normalization,
-    "localThresholding":histograms.local_threshold,
-    "globalThresholding":histograms.global_threshold
+    "equalize": histograms.equalization,
+    "normalize":histograms.normalization,
+    "localThreshold":histograms.local_threshold,
+    "globalThreshold":histograms.global_threshold
 }
 
 def executeFilterOperation(operation,image):
     return filterOperationsDict[operation](image)
 
 def executeHistogramOperation(operation,image):
-    return histogramsOperationsDict[operation]()
+    return histogramsOperationsDict[operation](image)
 
 @app.route("/")
 def home():

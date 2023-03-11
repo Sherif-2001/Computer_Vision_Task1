@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 
 # function that allows you to choose the length of diamiter of the chosen circle of the freq domain
