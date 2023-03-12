@@ -152,8 +152,9 @@ def rgb_hist_cumulative(image):
     ax[1,1].bar(np.arange(0,256),np.cumsum(g_hist),color="green")
     ax[1,2].bar(np.arange(0,256),np.cumsum(b_hist),color="blue")
 
-    plt.plot(r_hist)
-    plt.show()
+    plt.tight_layout()
+    plt.savefig("static/assets/rgb_histogram_plot.png", bbox_inches='tight', pad_inches=0)
+
     
 def twoD_fast_hist(matrix):
     # calculate histogram

@@ -25,8 +25,8 @@ const histogramSelect = document.getElementById("histogram-select");
 
 const inputImageOne = document.getElementById("input-img-1");
 const inputImageTwo = document.getElementById("input-img-2");
-const outputImage = document.getElementById("output-img");
-const edgeImage = document.getElementById("edge-img");
+const ImageThree = document.getElementById("output-img");
+const Imagefour = document.getElementById("edge-img");
 
 const files = [2];
 
@@ -54,6 +54,7 @@ tab1Button.addEventListener("click", function (_) {
   clearImages();
   header.textContent = "Frequency Filters";
   edgeImageContainer.classList.remove("hide")
+  submitButton.classList.add("hide")
 });
 
 tab2Button.addEventListener("click", function (_) {
@@ -66,6 +67,7 @@ tab2Button.addEventListener("click", function (_) {
   clearImages();
   header.textContent = "Histogram Operations";
   edgeImageContainer.classList.remove("hide");
+  submitButton.classList.add("hide")
 });
 
 tab3Button.addEventListener("click", function (_) {
@@ -78,12 +80,31 @@ tab3Button.addEventListener("click", function (_) {
   clearImages();
   header.textContent = "Hybrid images";
   edgeImageContainer.classList.add("hide");
+  submitButton.classList.remove("hide")
 });
+
+noiseSelect.addEventListener("change", function (_) {
+  submitClick(1);
+});
+
+filterSelect.addEventListener("change", function (_) {
+  submitClick(1);
+});
+
+edgeSelect.addEventListener("change", function (_) {
+  submitClick(1);
+});
+
+histogramSelect.addEventListener("change", function (_) {
+  submitClick(2);
+})
+
+
 
 function clearImages() {
   inputImageTwo.src = "";
-  outputImage.src = "";
-  edgeImage.src = "";
+  ImageThree.src = "";
+  Imagefour.src = "";
 }
 
 function submitClick(tabNum) {
@@ -109,15 +130,20 @@ function submitClick(tabNum) {
     success: function (res) {
       if (tabNum == 1) {
         inputImageTwo.src = "static/assets/noisy_image.png?t=" + new Date().getTime();
-        edgeImage.src = "static/assets/edge_image.png?t=" + new Date().getTime();
-        outputImage.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
+        ImageThree.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
+        Imagefour.src = "static/assets/edge_image.png?t=" + new Date().getTime();
       } else if (tabNum == 2) {
-        inputImageTwo.src = "static/assets/histogram_plot.png?t=" + new Date().getTime();
-        outputImage.src = "static/assets/histogram_image.png?t=" + new Date().getTime();
-        edgeImage.src = "static/assets/edited_histogram_plot.png?t=" + new Date().getTime();
+        if (histogramSelect.value == "RGBHistograms") {
+          inputImageTwo.src = "static/assets/rgb_histogram_plot.png?t=" + new Date().getTime()
+        }
+        else {
+          inputImageTwo.src = "static/assets/histogram_plot.png?t=" + new Date().getTime();
+          ImageThree.src = "static/assets/histogram_image.png?t=" + new Date().getTime();
+          Imagefour.src = "static/assets/edited_histogram_plot.png?t=" + new Date().getTime();
+        }
       }
       else if (tabNum == 3) {
-        outputImage.src = "static/assets/hybrid_image.png?t=" + new Date().getTime();
+        ImageThree.src = "static/assets/hybrid_image.png?t=" + new Date().getTime();
       }
     },
   });

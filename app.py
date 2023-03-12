@@ -80,14 +80,12 @@ def tab2():
 
     # Retrieve the output image after executing the operation
     if operation1 == "RGBHistograms":
-        output_image  = executeHistogramOperation(operation1, cv2.imread("static/assets/image1.png",-1))
+        executeHistogramOperation(operation1, cv2.imread("static/assets/image1.png",-1))
     else:
-        output_image  = executeHistogramOperation(operation1, input_image)
-
-    cv2.imwrite("static/assets/histogram_image.png",output_image)
-    
-    histograms.saveHistogramPlot(input_image, 1)
-    histograms.saveHistogramPlot(output_image, 2)
+        output_image = executeHistogramOperation(operation1, input_image)
+        histograms.saveHistogramPlot(input_image, 1)
+        histograms.saveHistogramPlot(output_image, 2)
+        cv2.imwrite("static/assets/histogram_image.png",output_image)
 
     return "tab2"
 
