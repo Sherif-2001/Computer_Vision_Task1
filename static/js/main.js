@@ -13,6 +13,8 @@ const tab3Button = document.getElementById("tab3-btn");
 
 const imagesContainers = document.getElementById("images-containers");
 const outputImageContainer = document.getElementById("output-img-container");
+const edgeImageContainer = document.getElementById("edge-img-container");
+const inputImagetwoContainer = document.getElementById("input-img-2-container");
 
 const submitButton = document.getElementById("submit-btn");
 
@@ -25,8 +27,6 @@ const inputImageOne = document.getElementById("input-img-1");
 const inputImageTwo = document.getElementById("input-img-2");
 const outputImage = document.getElementById("output-img");
 const edgeImage = document.getElementById("edge-img");
-
-
 
 const files = [2];
 
@@ -51,11 +51,9 @@ tab1Button.addEventListener("click", function (_) {
   tab1Content.classList.remove("hide");
   tab2Content.classList.add("hide");
   tab3Content.classList.add("hide");
-
+  clearImages();
   header.textContent = "Frequency Filters";
-  document.getElementById("input-img-2-container").classList.remove("hide");
-  document.getElementById("edge-img-container").classList.remove("hide")
-
+  edgeImageContainer.classList.remove("hide")
 });
 
 tab2Button.addEventListener("click", function (_) {
@@ -65,10 +63,9 @@ tab2Button.addEventListener("click", function (_) {
   tab1Content.classList.add("hide");
   tab2Content.classList.remove("hide");
   tab3Content.classList.add("hide");
-
+  clearImages();
   header.textContent = "Histogram Operations";
-  document.getElementById("input-img-2-container").classList.add("hide");
-  document.getElementById("edge-img-container").classList.add("hide")
+  edgeImageContainer.classList.remove("hide");
 });
 
 tab3Button.addEventListener("click", function (_) {
@@ -78,12 +75,16 @@ tab3Button.addEventListener("click", function (_) {
   tab1Content.classList.add("hide");
   tab2Content.classList.add("hide");
   tab3Content.classList.remove("hide");
-
+  clearImages();
   header.textContent = "Hybrid images";
-  document.getElementById("input-img-2-container").classList.remove("hide")
-  document.getElementById("edge-img-container").classList.add("hide")
+  edgeImageContainer.classList.add("hide");
 });
 
+function clearImages() {
+  inputImageTwo.src = "";
+  outputImage.src = "";
+  edgeImage.src = "";
+}
 
 function submitClick(tabNum) {
   let formData = new FormData();
@@ -105,13 +106,15 @@ function submitClick(tabNum) {
     processData: false,
     contentType: false,
     async: true,
-    success: function (_) {
+    success: function (res) {
       if (tabNum == 1) {
         inputImageTwo.src = "static/assets/noisy_image.png?t=" + new Date().getTime();
         edgeImage.src = "static/assets/edge_image.png?t=" + new Date().getTime();
         outputImage.src = "static/assets/filtered_image.png?t=" + new Date().getTime();
       } else if (tabNum == 2) {
+        inputImageTwo.src = "static/assets/histogram_plot.png?t=" + new Date().getTime();
         outputImage.src = "static/assets/histogram_image.png?t=" + new Date().getTime();
+        edgeImage.src = "static/assets/edited_histogram_plot.png?t=" + new Date().getTime();
       }
       else if (tabNum == 3) {
         outputImage.src = "static/assets/hybrid_image.png?t=" + new Date().getTime();

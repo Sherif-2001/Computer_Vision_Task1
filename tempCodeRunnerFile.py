@@ -1,0 +1,1 @@
+Image.fromarray(noisy_image).tobytes()
