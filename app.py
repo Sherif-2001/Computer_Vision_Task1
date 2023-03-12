@@ -28,7 +28,8 @@ histogramsOperationsDict = {
     "equalize": histograms.equalization,
     "normalize":histograms.normalization,
     "localThreshold":histograms.local_threshold,
-    "globalThreshold":histograms.global_threshold
+    "globalThreshold":histograms.global_threshold,
+    "RGBHistograms":histograms.rgb_hist_cumulative,
 }
 
 def executeFilterOperation(operation,image):
@@ -78,7 +79,11 @@ def tab2():
     operation1 = request.form['operation1']
 
     # Retrieve the output image after executing the operation
-    output_image  = executeHistogramOperation(operation1, input_image)
+    if operation1 == "RGBHistograms":
+        output_image  = executeHistogramOperation(operation1, cv2.imread("static/assets/image1.png",-1))
+    else:
+        output_image  = executeHistogramOperation(operation1, input_image)
+
     cv2.imwrite("static/assets/histogram_image.png",output_image)
     
     histograms.saveHistogramPlot(input_image, 1)
