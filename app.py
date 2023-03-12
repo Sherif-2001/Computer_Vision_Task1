@@ -4,6 +4,8 @@ from PIL import Image
 import filters
 import frequency
 import histograms
+import matplotlib.pyplot as plt
+
 
 app = Flask(__name__)
 
@@ -97,10 +99,13 @@ def tab3():
     input_image1 = cv2.imread("static/assets/image1.png",-1)
     input_image2 = cv2.imread("static/assets/image2.png",-1)
 
+    # executing the frequency filters on the two images
     output_image = frequency.hybrid_image(input_image1, input_image2)
 
     # Retrieve the output image after executing the operation
-    cv2.imwrite("static/assets/hybrid_image.png",output_image) 
+    img_normalized = cv2.normalize(output_image, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    plt.imsave("static/assets/hybrid_image.png",img_normalized )
+
 
     return "tab3"
 

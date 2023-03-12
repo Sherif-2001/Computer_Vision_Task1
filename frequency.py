@@ -4,7 +4,7 @@ import numpy as np
 # function that allows you to choose the length of diamiter of the chosen circle of the freq domain
 def draw_cicle(shape,diamiter):
     assert len(shape) == 2
-    TF = np.zeros(shape,dtype=np.uint8)
+    TF = np.zeros(shape,dtype=np.bool_)
     center = np.array(TF.shape)/2.0
 
     for iy in range(shape[0]):
@@ -82,6 +82,9 @@ def hybrid_image(image1,image2):
     img_reco_filtered_IN  = inv_FFT_all_channel(fft_img_filtered_IN)
     img_reco_filtered_OUT = inv_FFT_all_channel(fft_img_filtered_OUT)
 
-    hybrid_image = img_reco_filtered_IN + img_reco_filtered_OUT
+    abs_img_reco_filtered_IN = np.abs(img_reco_filtered_IN)
+    abs_reco_filtered_OUT = np.abs(img_reco_filtered_OUT)
+    hybrid_image = abs_img_reco_filtered_IN + abs_reco_filtered_OUT
+
 
     return hybrid_image
